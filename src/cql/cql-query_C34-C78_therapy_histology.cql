@@ -10,7 +10,7 @@ context Patient
 
 /*
   Zielkohorte:
-  - Diagnose C34* UND C78*
+  - Diagnose C34* ODER C78*
   - Therapie erhalten: Strahlentherapie (ST) oder Systemtherapie (CH/IM/HO)
   - Für jede relevante Therapie ist Histologie (LOINC 59847-4) vor und nach Therapie dokumentiert
 
@@ -94,7 +94,7 @@ define HistologyBeforeAndAfterEachTherapy:
   )
 
 define InInitialPopulation:
-  HasC34Diagnosis
-    and HasC78Diagnosis
+  (HasC34Diagnosis
+    or HasC78Diagnosis)
     and HasRelevantTherapy
     and HistologyBeforeAndAfterEachTherapy
