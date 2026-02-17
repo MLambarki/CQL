@@ -45,14 +45,10 @@ define HasC78Diagnosis:
     (exists [Condition: Code 'C78.9' from icd10])
   )
 
-
-
 define HistologyDates:
   [Observation: Code '59847-4' from loinc] O
     where O.effective is not null
-    return FHIRHelpers.ToDateTime(O.effective as FHIR.dateTime)
-
-
+    return start of FHIRHelpers.ToInterval(O.effective)
 
 define RadiotherapyIntervalsFromPeriod:
   [Procedure: category in Code 'ST' from Therapieart] P
@@ -98,7 +94,7 @@ define HistologyBeforeAndAfterEachTherapy:
   )
 
 define InInitialPopulation:
-  (HasC34Diagnosis
-    or HasC78Diagnosis)
- and HasRelevantTherapy 
- and HistologyBeforeAndAfterEachTherapy
+  HasC34Diagnosis
+    and HasC78Diagnosis
+    and HasRelevantTherapy
+    and HistologyBeforeAndAfterEachTherapy
